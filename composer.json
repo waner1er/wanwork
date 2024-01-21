@@ -1,0 +1,11 @@
+{
+    "name": "erwan/test",
+    "autoload": {
+        "files": [
+            "App/Configuration/Helpers.php"
+        ],
+        "psr-4": {
+            "App\\": "App/"
+        }
+    }
+}

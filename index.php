@@ -1,41 +1,28 @@
 <?php
 
-use App\Controllers\HomeController;
+// index.php
+require 'vendor/autoload.php';
+
+
+use App\Configuration\Helpers;
 use App\Controllers\PostController;
+use App\Controllers\WelcomeController;
 
-define('ROOT_PATH', realpath(__DIR__));
+// Define the base path of the views
+define('VIEW', __DIR__ . '/Views/');
+define('BASEDIR', __DIR__ . '/');
+define('MAIN_CSS', '/Assets/css/main.css');
 
-// Inclure vos contrôleurs
-include 'app/controllers/HomeController.php';
-include 'app/controllers/PostController.php';
+include 'App/Configuration/functions.php';
 
-// Définir les routes
+
+
+
+// Define the routes
 $routes = [
-    //HOMEPAGE
-    '/' => [HomeController::class, 'index'],
-    // POSTS
+    '/' => [WelcomeController::class, 'index'],
     '/posts' => [PostController::class, 'index'],
-    '/posts/(\d+)' => [PostController::class, 'show'],
-    '/posts/create' => [PostController::class, 'create'],
-    '/posts/store' => [PostController::class, 'store'],
-    '/posts/(\d+)/edit' => [PostController::class, 'edit'],
-    '/posts/(\d+)/update' => [PostController::class, 'update'],
-    // '/posts/(\d+)/delete' => [PostController::class, 'delete'],
-    // '/posts/(\d+)/destroy' => [PostController::class, 'destroy'],
+    // Add more routes as needed
 ];
 
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Vérifier si l'URL correspond à une des routes
-foreach ($routes as $routePattern => $routeCallback) {
-    if (preg_match('#^' . $routePattern . '$#', $path, $matches)) {
-        array_shift($matches); // Retirer le match complet
-        $controller = $routeCallback[0];
-        $method = $routeCallback[1];
-        $object = new $controller;
-        $object->$method(...$matches);
-        exit;
-    }
-}
-
-echo '404 Not Found';
+include_once 'App/Configuration/Router.php';
